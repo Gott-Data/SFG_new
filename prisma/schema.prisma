@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  subtitle    String?
+  description String
+  imageUrl    String?
+  category    String   // "direct" | "partner"
+  country     String
+  partnerName String?
+  goalAmount  Int      // in cents
+  raisedAmount Int     @default(0) // in cents
+  status      String   @default("active") // "active" | "completed" | "paused"
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  donations   Donation[]
+  expenses    Expense[]
+}
+
+model Donor {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  name           String
+  stripeCustomerId String? @unique
+  createdAt      DateTime @default(now())
+
+  donations      Donation[]
+}
+
+model Donation {
+  id                String   @id @default(cuid())
+  amount            Int      // in cents
+  currency          String   @default("usd")
+  stripePaymentId   String?  @unique
+  stripeSessionId   String?  @unique
+  status            String   @default("pending") // "pending" | "completed" | "failed"
+  message           String?
+  anonymous         Boolean  @default(false)
+  createdAt         DateTime @default(now())
+
+  project           Project  @relation(fields: [projectId], references: [id])
+  projectId         String
+  donor             Donor    @relation(fields: [donorId], references: [id])
+  donorId           String
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  amount      Int      // in cents
+  description String
+  category    String   // "operations" | "supplies" | "travel" | "personnel" | "other"
+  receiptUrl  String?
+  date        DateTime
+  createdAt   DateTime @default(now())
+
+  project     Project  @relation(fields: [projectId], references: [id])
+  projectId   String
+}
