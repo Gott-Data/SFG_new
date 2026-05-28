@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, Heart } from "lucide-react";
 
 const navLinks = [
@@ -20,9 +21,13 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-forest rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg font-[var(--font-heading)]">S</span>
-            </div>
+            <Image
+              src="/images/logo/logo.png"
+              alt="Statloba For Good"
+              width={40}
+              height={40}
+              className="w-10 h-10 rounded-full object-contain"
+            />
             <div className="hidden sm:block">
               <span className="text-forest font-bold text-lg font-[var(--font-heading)]">
                 Statloba

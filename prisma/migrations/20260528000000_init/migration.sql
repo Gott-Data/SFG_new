@@ -9,6 +9,7 @@ CREATE TABLE "Project" (
     "category" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "partnerName" TEXT,
+    "partnerSince" TEXT,
     "goalAmount" INTEGER NOT NULL,
     "raisedAmount" INTEGER NOT NULL DEFAULT 0,
     "status" TEXT NOT NULL DEFAULT 'active',

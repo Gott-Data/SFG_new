@@ -16,8 +16,9 @@ model Project {
   imageUrl    String?
   category    String   // "direct" | "partner"
   country     String
-  partnerName String?
-  goalAmount  Int      // in cents
+  partnerName  String?
+  partnerSince String?
+  goalAmount   Int      // in cents
   raisedAmount Int     @default(0) // in cents
   status      String   @default("active") // "active" | "completed" | "paused"
   featured    Boolean  @default(false)

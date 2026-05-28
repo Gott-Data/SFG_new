@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Heart, Mail, MapPin } from "lucide-react";
 
 export default function Footer() {
@@ -9,9 +10,13 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-orange rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg">S</span>
-              </div>
+              <Image
+                src="/images/logo/logo.png"
+                alt="Statloba For Good"
+                width={40}
+                height={40}
+                className="w-10 h-10 rounded-full object-contain"
+              />
               <div>
                 <span className="text-white font-bold text-xl font-[var(--font-heading)]">
                   Statloba

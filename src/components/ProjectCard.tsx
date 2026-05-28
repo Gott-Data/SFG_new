@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { MapPin, Users, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { MapPin, Users, ArrowRight, Handshake } from "lucide-react";
 import { formatCurrency, getProgressPercentage } from "@/lib/utils";
 
 interface ProjectCardProps {
@@ -10,6 +11,7 @@ interface ProjectCardProps {
   category: string;
   country: string;
   partnerName?: string | null;
+  partnerSince?: string | null;
   goalAmount: number;
   raisedAmount: number;
   imageUrl?: string | null;
@@ -24,8 +26,10 @@ export default function ProjectCard({
   category,
   country,
   partnerName,
+  partnerSince,
   goalAmount,
   raisedAmount,
+  imageUrl,
   featured,
 }: ProjectCardProps) {
   const progress = getProgressPercentage(raisedAmount, goalAmount);
@@ -37,13 +41,24 @@ export default function ProjectCard({
         featured ? "ring-2 ring-orange/20" : ""
       }`}
     >
-      {/* Image Placeholder */}
+      {/* Image */}
       <div className="relative h-48 bg-gradient-to-br from-forest to-forest-light overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-white/20 text-6xl font-bold font-[var(--font-heading)]">
-            {title.charAt(0)}
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-white/20 text-6xl font-bold font-[var(--font-heading)]">
+              {title.charAt(0)}
+            </div>
           </div>
-        </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
         <div className="absolute top-3 left-3 flex gap-2">
           <span
             className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -64,14 +79,27 @@ export default function ProjectCard({
 
       {/* Content */}
       <div className="p-6">
-        <div className="flex items-center gap-2 text-warm-gray text-xs mb-2">
-          <MapPin className="w-3 h-3" />
-          <span>{country}</span>
+        <div className="flex items-center gap-2 text-warm-gray text-xs mb-2 flex-wrap">
+          <span className="inline-flex items-center gap-1">
+            <MapPin className="w-3 h-3" />
+            {country}
+          </span>
           {partnerName && (
             <>
               <span className="text-cream-dark">|</span>
-              <Users className="w-3 h-3" />
-              <span>{partnerName}</span>
+              <span className="inline-flex items-center gap-1">
+                <Users className="w-3 h-3" />
+                {partnerName}
+              </span>
+            </>
+          )}
+          {partnerSince && (
+            <>
+              <span className="text-cream-dark">|</span>
+              <span className="inline-flex items-center gap-1">
+                <Handshake className="w-3 h-3" />
+                Since {partnerSince}
+              </span>
             </>
           )}
         </div>

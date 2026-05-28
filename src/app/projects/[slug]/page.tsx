@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, MapPin, Users, Calendar, TrendingUp } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, MapPin, Users, Calendar, TrendingUp, Handshake } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { formatCurrency, getProgressPercentage } from "@/lib/utils";
 import DonationForm from "@/components/DonationForm";
@@ -72,6 +73,12 @@ export default async function ProjectDetailPage({
                 {project.partnerName}
               </div>
             )}
+            {project.partnerSince && (
+              <div className="flex items-center gap-1 text-white/60 text-sm">
+                <Handshake className="w-3 h-3" />
+                Partners since {project.partnerSince}
+              </div>
+            )}
           </div>
           <h1 className="text-3xl lg:text-5xl font-bold text-white font-[var(--font-heading)] mb-3">
             {project.title}
@@ -81,6 +88,21 @@ export default async function ProjectDetailPage({
           )}
         </div>
       </section>
+
+      {/* Project Image */}
+      {project.imageUrl && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
+          <div className="relative w-full h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-lg">
+            <Image
+              src={project.imageUrl}
+              alt={project.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
