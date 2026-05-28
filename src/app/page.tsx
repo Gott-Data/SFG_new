@@ -2,19 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Heart, Shield, Eye } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
 import ImpactStats from "@/components/ImpactStats";
-import { prisma } from "@/lib/db";
-
-async function getFeaturedProjects() {
-  try {
-    return await prisma.project.findMany({
-      where: { featured: true, status: "active" },
-      take: 3,
-      orderBy: { createdAt: "desc" },
-    });
-  } catch {
-    return [];
-  }
-}
+import { getFeaturedProjects } from "@/lib/get-projects";
 
 export default async function HomePage() {
   const featuredProjects = await getFeaturedProjects();

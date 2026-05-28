@@ -1,17 +1,6 @@
-import { prisma } from "@/lib/db";
 import ProjectCard from "@/components/ProjectCard";
 import { Globe, Building2 } from "lucide-react";
-
-async function getProjects() {
-  try {
-    return await prisma.project.findMany({
-      where: { status: "active" },
-      orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
-    });
-  } catch {
-    return [];
-  }
-}
+import { getAllProjects } from "@/lib/get-projects";
 
 export const metadata = {
   title: "Our Projects | Statloba For Good",
@@ -19,7 +8,7 @@ export const metadata = {
 };
 
 export default async function ProjectsPage() {
-  const projects = await getProjects();
+  const projects = await getAllProjects();
   const directProjects = projects.filter((p) => p.category === "direct");
   const partnerProjects = projects.filter((p) => p.category === "partner");
 
@@ -32,7 +21,7 @@ export default async function ProjectsPage() {
             Our Projects
           </h1>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            From Portland to Nairobi, we run and support projects that use
+            From Eugene to Kathmandu, we run and support projects that use
             sport, data, and health to uplift communities.
           </p>
         </div>

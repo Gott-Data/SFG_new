@@ -2,31 +2,9 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, MapPin, Users, Calendar, TrendingUp, Handshake } from "lucide-react";
-import { prisma } from "@/lib/db";
 import { formatCurrency, getProgressPercentage } from "@/lib/utils";
 import DonationForm from "@/components/DonationForm";
-
-async function getProject(slug: string) {
-  try {
-    return await prisma.project.findUnique({
-      where: { slug },
-      include: {
-        donations: {
-          where: { status: "completed" },
-          orderBy: { createdAt: "desc" },
-          take: 10,
-          include: { donor: true },
-        },
-        expenses: {
-          orderBy: { date: "desc" },
-          take: 10,
-        },
-      },
-    });
-  } catch {
-    return null;
-  }
-}
+import { getProjectBySlug } from "@/lib/get-projects";
 
 export default async function ProjectDetailPage({
   params,
@@ -34,12 +12,12 @@ export default async function ProjectDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = await getProject(slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) notFound();
 
   const progress = getProgressPercentage(project.raisedAmount, project.goalAmount);
-  const totalExpenses = project.expenses.reduce((sum, e) => sum + e.amount, 0);
+  const totalExpenses = project.expenses.reduce((sum: number, e: { amount: number }) => sum + e.amount, 0);
 
   return (
     <div className="bg-cream min-h-screen">
@@ -53,6 +31,7 @@ export default async function ProjectDetailPage({
             <ArrowLeft className="w-4 h-4" />
             Back to Projects
           </Link>
+
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <span
               className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -80,19 +59,35 @@ export default async function ProjectDetailPage({
               </div>
             )}
           </div>
-          <h1 className="text-3xl lg:text-5xl font-bold text-white font-[var(--font-heading)] mb-3">
-            {project.title}
-          </h1>
-          {project.subtitle && (
-            <p className="text-white/70 text-lg">{project.subtitle}</p>
-          )}
+
+          <div className="flex items-start gap-6">
+            {project.partnerLogoUrl && (
+              <div className="hidden md:flex flex-shrink-0 w-20 h-20 bg-white/10 rounded-xl overflow-hidden items-center justify-center p-2">
+                <Image
+                  src={project.partnerLogoUrl}
+                  alt={`${project.partnerName} logo`}
+                  width={64}
+                  height={64}
+                  className="object-contain"
+                />
+              </div>
+            )}
+            <div>
+              <h1 className="text-3xl lg:text-5xl font-bold text-white font-[var(--font-heading)] mb-3">
+                {project.title}
+              </h1>
+              {project.subtitle && (
+                <p className="text-white/70 text-lg">{project.subtitle}</p>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Project Image */}
       {project.imageUrl && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
-          <div className="relative w-full h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-lg">
+          <div className="relative w-full h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-lg bg-forest/20">
             <Image
               src={project.imageUrl}
               alt={project.title}
@@ -159,10 +154,32 @@ export default async function ProjectDetailPage({
               <h2 className="text-xl font-bold text-charcoal font-[var(--font-heading)] mb-4">
                 About This Project
               </h2>
-              <p className="text-warm-gray leading-relaxed whitespace-pre-line">
+              <div className="text-warm-gray leading-relaxed whitespace-pre-line">
                 {project.description}
-              </p>
+              </div>
             </div>
+
+            {/* Partner Logo (mobile) */}
+            {project.partnerLogoUrl && (
+              <div className="md:hidden bg-white rounded-2xl p-6 shadow-sm flex items-center gap-4">
+                <div className="flex-shrink-0 w-16 h-16 bg-cream rounded-xl overflow-hidden flex items-center justify-center p-2">
+                  <Image
+                    src={project.partnerLogoUrl}
+                    alt={`${project.partnerName} logo`}
+                    width={48}
+                    height={48}
+                    className="object-contain"
+                  />
+                </div>
+                <div>
+                  <p className="text-sm text-warm-gray">Partner Organization</p>
+                  <p className="font-bold text-charcoal">{project.partnerName}</p>
+                  {project.partnerSince && (
+                    <p className="text-xs text-warm-gray">Since {project.partnerSince}</p>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Spending Transparency */}
             <div className="bg-white rounded-2xl p-8 shadow-sm">
@@ -174,7 +191,7 @@ export default async function ProjectDetailPage({
               </div>
               {project.expenses.length > 0 ? (
                 <div className="space-y-3">
-                  {project.expenses.map((expense) => (
+                  {project.expenses.map((expense: { id: string; description: string; date: Date; category: string; amount: number }) => (
                     <div
                       key={expense.id}
                       className="flex items-center justify-between py-3 border-b border-cream last:border-0"
@@ -185,7 +202,7 @@ export default async function ProjectDetailPage({
                         </p>
                         <div className="flex items-center gap-2 text-xs text-warm-gray mt-1">
                           <Calendar className="w-3 h-3" />
-                          {expense.date.toLocaleDateString()}
+                          {new Date(expense.date).toLocaleDateString()}
                           <span className="px-2 py-0.5 bg-cream rounded-full text-xs capitalize">
                             {expense.category}
                           </span>
@@ -212,7 +229,7 @@ export default async function ProjectDetailPage({
               </h2>
               {project.donations.length > 0 ? (
                 <div className="space-y-4">
-                  {project.donations.map((donation) => (
+                  {project.donations.map((donation: { id: string; anonymous: boolean; donor: { name: string }; message?: string | null; amount: number; createdAt: Date }) => (
                     <div
                       key={donation.id}
                       className="flex items-start justify-between py-3 border-b border-cream last:border-0"
@@ -243,7 +260,7 @@ export default async function ProjectDetailPage({
                           {formatCurrency(donation.amount)}
                         </span>
                         <p className="text-xs text-warm-gray">
-                          {donation.createdAt.toLocaleDateString()}
+                          {new Date(donation.createdAt).toLocaleDateString()}
                         </p>
                       </div>
                     </div>

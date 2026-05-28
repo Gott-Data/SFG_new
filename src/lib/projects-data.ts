@@ -1,5 +1,36 @@
-export const projectsData = [
+export interface ProjectData {
+  slug: string;
+  title: string;
+  subtitle?: string;
+  description: string;
+  imageUrl?: string;
+  category: "direct" | "partner";
+  country: string;
+  partnerName?: string;
+  partnerSince?: string;
+  partnerLogoUrl?: string;
+  goalAmount: number;
+  raisedAmount: number;
+  status: string;
+  featured: boolean;
+}
+
+export const projectsData: ProjectData[] = [
   // ── SFG Direct Projects ──────────────────────────────────
+  {
+    slug: "general-support-fund",
+    title: "General Support Fund",
+    subtitle: "Fuel Our Pro Bono Mission",
+    description:
+      "Your donation to the General Support Fund directly powers SFG's ability to take on more pro bono projects and provide sliding-scale services to organizations around the world. This fund covers operational costs, travel for in-person clinics, platform development, and the behind-the-scenes work that makes every partner project possible.\n\nBy supporting this fund, you enable us to say 'yes' to more organizations who need help but can't afford it — expanding our reach and deepening our impact across every community we serve.",
+    imageUrl: "/images/projects/general-support-fund/hero.jpg",
+    category: "direct",
+    country: "Global",
+    goalAmount: 10000000,
+    raisedAmount: 3200000,
+    status: "active",
+    featured: true,
+  },
   {
     slug: "youth-sports-portland",
     title: "Youth Sports Academy",
@@ -26,7 +57,7 @@ export const projectsData = [
     goalAmount: 3500000,
     raisedAmount: 2100000,
     status: "active",
-    featured: true,
+    featured: false,
   },
   {
     slug: "data-skills-bootcamp",
@@ -54,11 +85,12 @@ export const projectsData = [
     category: "partner",
     country: "Nepal",
     partnerName: "Atoot & The WE United Project",
+    partnerSince: "2022",
+    partnerLogoUrl: "/images/projects/we-united-nepal/logo.png",
     goalAmount: 5000000,
     raisedAmount: 1850000,
     status: "active",
     featured: true,
-    partnerSince: "2022",
   },
   {
     slug: "chipata-girls-zambia",
@@ -70,11 +102,12 @@ export const projectsData = [
     category: "partner",
     country: "Zambia",
     partnerName: "Chipata Girls Football Club",
+    partnerSince: "2024",
+    partnerLogoUrl: "/images/projects/chipata-girls-zambia/logo.png",
     goalAmount: 4000000,
     raisedAmount: 2750000,
     status: "active",
     featured: true,
-    partnerSince: "2024",
   },
   {
     slug: "fsmart-niger",
@@ -86,11 +119,12 @@ export const projectsData = [
     category: "partner",
     country: "Niger",
     partnerName: "F.SMART+ 2030 Africa Association",
+    partnerSince: "2020",
+    partnerLogoUrl: "/images/projects/fsmart-niger/logo.png",
     goalAmount: 3000000,
     raisedAmount: 980000,
     status: "active",
     featured: false,
-    partnerSince: "2020",
   },
   {
     slug: "hip-football-usa",
@@ -102,10 +136,11 @@ export const projectsData = [
     category: "partner",
     country: "United States",
     partnerName: "H.I.P. Head Impact Prevention, LLC",
+    partnerSince: "2024",
+    partnerLogoUrl: "/images/projects/hip-football-usa/logo.png",
     goalAmount: 5000000,
     raisedAmount: 1200000,
     status: "active",
     featured: false,
-    partnerSince: "2024",
   },
 ];
