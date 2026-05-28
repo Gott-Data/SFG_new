@@ -1,10 +1,8 @@
-const { PrismaClient } = require("./src/generated/prisma/client.js");
-const { PrismaBetterSqlite3 } = require("@prisma/adapter-better-sqlite3");
-const path = require("path");
+import { PrismaClient } from "./src/generated/prisma/client.js";
+import { PrismaNeon } from "@prisma/adapter-neon";
+import "dotenv/config";
 
-const adapter = new PrismaBetterSqlite3({
-  url: `file:${path.join(__dirname, "dev.db")}`,
-});
+const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
 const projectsData = [
