@@ -29,7 +29,7 @@ export default function Footer() {
             <div className="flex flex-col gap-2 text-white/60 text-sm">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
-                Portland, Oregon
+                Eugene, Oregon
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
@@ -81,7 +81,7 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Statloba For Good. All rights reserved.
           </p>
           <p className="text-white/50 text-sm flex items-center gap-1">
-            Made with <Heart className="w-3 h-3 text-orange" /> in Portland, OR
+            Made with <Heart className="w-3 h-3 text-orange" /> in Eugene, OR
           </p>
         </div>
       </div>

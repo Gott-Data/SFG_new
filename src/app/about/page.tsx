@@ -2,80 +2,72 @@ import Link from "next/link";
 import {
   Heart,
   Target,
-  Lightbulb,
+  Globe,
   Users,
   Activity,
-  BookOpen,
   Laptop,
-  Globe,
+  Sparkles,
+  ArrowRight,
+  Trophy,
+  GraduationCap,
   Handshake,
+  BarChart3,
 } from "lucide-react";
 
 export const metadata = {
   title: "About Us | Statloba For Good",
   description:
-    "Learn about our mission to empower communities through sport, data, and health.",
+    "Learn about our mission to empower communities through sport, data, and health. Meet our team and discover our story.",
 };
 
-const services = [
-  {
-    icon: Activity,
-    title: "Sports for Good",
-    description:
-      "We design and support sports programs that foster leadership, promote wellbeing, inclusion, and social change for youth and underserved communities.",
-  },
+const focusAreas = [
   {
     icon: Heart,
-    title: "Health & Wellness",
+    title: "Community Health Initiatives",
     description:
-      "We organize health fairs and workshops providing free medical screenings, wellness education, and mental health resources to communities.",
-  },
-  {
-    icon: Laptop,
-    title: "Digital Literacy & Tech Access",
-    description:
-      "We build tools and run programs that expand access to education — from e-learning platforms to Data & AI Skills Training and digital workshops.",
+      "Co-creating health programs with communities — from free health fairs to wellness workshops — ensuring access, education, and inclusive engagement.",
   },
   {
     icon: Users,
-    title: "Community Events",
+    title: "Positive Youth Development",
     description:
-      "We organize community-based events that create access, build confidence, and promote wellbeing across neighborhoods.",
+      "Building confident, capable young leaders through sport-based programming, mentorship, and leadership development opportunities.",
   },
   {
-    icon: Handshake,
-    title: "Organizational Consulting",
+    icon: Target,
+    title: "Sustainable Communities & Organizations",
     description:
-      "We provide hands-on support to mission-aligned organizations — from program management to custom consulting for operations and systems.",
+      "Empowering mission-aligned organizations with strategies, systems, and digital tools to scale impact and sustain meaningful change.",
   },
   {
-    icon: Globe,
-    title: "Global Partnerships",
+    icon: Trophy,
+    title: "Women & Girls in Sports",
     description:
-      "We support growth-minded teams doing good globally, developing fundraising strategies and helping organizations scale what works.",
+      "Creating equitable access to sport and leadership for women and girls, fostering confidence, belonging, and opportunity through inclusive programming.",
   },
 ];
 
-const values = [
+const pillars = [
   {
-    icon: Target,
-    title: "Data-Driven Impact",
-    description: "Every decision backed by data. Every dollar tracked and accounted for.",
+    emoji: "⚽",
+    title: "Sport for Good",
+    color: "bg-forest/10 text-forest",
+    description:
+      "We use sport as a powerful tool to build confidence, leadership, and belonging — creating safe, inclusive spaces where young people grow not just as athletes, but as changemakers.",
   },
   {
-    icon: Lightbulb,
-    title: "Innovation for Good",
-    description: "Using technology and sport as vehicles for sustainable community change.",
+    emoji: "🌐",
+    title: "Digital Equity",
+    color: "bg-navy/10 text-navy",
+    description:
+      "We close the digital divide by making tech, data, and AI training accessible — especially in underserved and rural communities — so that no one is left behind in the digital age.",
   },
   {
-    icon: BookOpen,
-    title: "Radical Transparency",
-    description: "Open books, open reporting. Donors see exactly where their support goes.",
-  },
-  {
-    icon: Users,
-    title: "Community First",
-    description: "We co-create solutions with communities, not for them. Local voices lead.",
+    emoji: "❤️",
+    title: "Community-Led Public Health",
+    color: "bg-orange/10 text-orange",
+    description:
+      "We co-create programs with the communities we serve, focusing on real needs like health education, access to services, and inclusive engagement. From free play days to health fairs, we bring people together to learn, connect, and thrive.",
   },
 ];
 
@@ -83,75 +75,116 @@ export default function AboutPage() {
   return (
     <div className="bg-cream">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-forest-dark to-forest py-20">
+      <section className="bg-gradient-to-br from-forest-dark to-forest py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold text-white font-[var(--font-heading)] mb-4">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-orange-light px-4 py-2 rounded-full text-sm font-semibold mb-8">
+            <span className="w-2 h-2 bg-orange rounded-full animate-pulse" />
+            Eugene, Oregon, USA
+          </div>
+          <h1 className="text-4xl lg:text-6xl font-bold text-white font-[var(--font-heading)] mb-6">
             About Statloba For Good
           </h1>
-          <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Sport + Data + Health = Good. We empower communities through
-            sustainable, data-driven initiatives.
+          <p className="text-white/80 text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed">
+            SFG is a registered non-profit leveraging decades of experience in
+            Data &amp; AI-Driven organizational performance, Sport for Good
+            programming, and Community Development to empower positive change.
           </p>
         </div>
       </section>
 
-      {/* Story */}
-      <section className="py-20">
+      {/* The Equation */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-warm-gray text-lg mb-6">
+            For SFG, the equation is simple.
+          </p>
+          <div className="flex items-center justify-center gap-3 sm:gap-5 flex-wrap">
+            {["Data", "+", "Sport", "+", "Health", "=", "Good"].map(
+              (item, i) =>
+                item === "+" || item === "=" ? (
+                  <span
+                    key={i}
+                    className="text-2xl lg:text-4xl font-bold text-orange"
+                  >
+                    {item}
+                  </span>
+                ) : (
+                  <span
+                    key={i}
+                    className={`text-2xl lg:text-4xl font-bold font-[var(--font-heading)] ${
+                      item === "Good" ? "text-orange" : "text-forest"
+                    }`}
+                  >
+                    {item}
+                  </span>
+                )
+            )}
+          </div>
+          <p className="text-warm-gray mt-8 max-w-2xl mx-auto leading-relaxed">
+            SFG strongly believes that combining the connecting power of Sport
+            with a Data &amp; AI-Driven approach to expand Community Health &amp;
+            Development will maximize impact, reach, and quality of targeted
+            outcomes.
+          </p>
+        </div>
+      </section>
+
+      {/* Vision */}
+      <section className="py-20 bg-cream">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-sm">
-            <h2 className="text-2xl lg:text-3xl font-bold text-charcoal font-[var(--font-heading)] mb-6">
-              Our Story
-            </h2>
-            <div className="space-y-4 text-warm-gray leading-relaxed">
-              <p>
-                Statloba For Good (SFG) was born from a simple belief: that
-                sport, data, and community-driven solutions can transform lives.
-                Based in Portland, Oregon, we work both locally in the U.S. and
-                with partner organizations around the world.
-              </p>
-              <p>
-                We use sport as a universal language to bring people together,
-                technology to amplify impact, and data to ensure every dollar
-                creates maximum change. Our work spans youth development,
-                women&apos;s health, digital literacy, and community building.
-              </p>
-              <p>
-                What makes us different? <strong>Radical transparency.</strong>{" "}
-                Every donor can track their contribution, see exactly where
-                funds are spent, and measure the impact of their generosity.
-                We believe that when people can see the change they&apos;re
-                making, they become lifelong champions for good.
-              </p>
+          <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-sm border-l-4 border-orange">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center justify-center w-12 h-12 bg-orange/10 rounded-xl">
+                <Sparkles className="w-6 h-6 text-orange" />
+              </div>
+              <h2 className="text-2xl lg:text-3xl font-bold text-charcoal font-[var(--font-heading)]">
+                Our Vision
+              </h2>
             </div>
+            <p className="text-warm-gray leading-relaxed text-lg mb-6">
+              A world where every young person — regardless of geography,
+              background, or access — can thrive through the power of sport,
+              community, and inclusive technology.
+            </p>
+            <p className="text-warm-gray leading-relaxed">
+              We envision communities where sport is more than play — it&apos;s a
+              pathway to confidence, leadership, and belonging. Where data and AI
+              are not tools of exclusion, but forces for equity. And where
+              organizations working for good are empowered with the strategies,
+              systems, and digital tools they need to scale impact and sustain
+              meaningful change.
+            </p>
+            <p className="text-forest font-semibold mt-6">
+              Through Sport &amp; Data For Good, we are building that future — one
+              partnership, one program, and one young leader at a time.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Values */}
+      {/* Core Pillars */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-charcoal font-[var(--font-heading)] mb-3">
-              Our Values
+              Core Pillars
             </h2>
             <p className="text-warm-gray max-w-xl mx-auto">
-              The principles that guide everything we do.
+              The three foundations that guide every initiative we lead.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {pillars.map((pillar) => (
               <div
-                key={value.title}
-                className="bg-cream rounded-2xl p-6 text-center"
+                key={pillar.title}
+                className="bg-cream rounded-2xl p-8 text-center hover:shadow-md transition-shadow"
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-forest/10 rounded-xl mb-4">
-                  <value.icon className="w-6 h-6 text-forest" />
-                </div>
-                <h3 className="font-bold text-charcoal mb-2 font-[var(--font-heading)]">
-                  {value.title}
+                <div className="text-5xl mb-4">{pillar.emoji}</div>
+                <h3 className="text-xl font-bold text-charcoal mb-3 font-[var(--font-heading)]">
+                  {pillar.title}
                 </h3>
                 <p className="text-sm text-warm-gray leading-relaxed">
-                  {value.description}
+                  {pillar.description}
                 </p>
               </div>
             ))}
@@ -159,12 +192,230 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Services / What We Do */}
-      <section className="py-20">
+      {/* Focus Areas */}
+      <section className="py-20 bg-cream">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-charcoal font-[var(--font-heading)] mb-3">
-              What We Do
+              Focus Areas
+            </h2>
+            <p className="text-warm-gray max-w-xl mx-auto">
+              All through the lens of data &amp; sport for good.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {focusAreas.map((area) => (
+              <div
+                key={area.title}
+                className="bg-white rounded-2xl p-8 shadow-sm flex gap-5"
+              >
+                <div className="flex-shrink-0">
+                  <div className="flex items-center justify-center w-12 h-12 bg-forest/10 rounded-xl">
+                    <area.icon className="w-6 h-6 text-forest" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-charcoal mb-2 font-[var(--font-heading)]">
+                    {area.title}
+                  </h3>
+                  <p className="text-sm text-warm-gray leading-relaxed">
+                    {area.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Story */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl lg:text-4xl font-bold text-charcoal font-[var(--font-heading)] mb-3">
+              Our Story
+            </h2>
+          </div>
+          <div className="space-y-6 text-warm-gray leading-relaxed">
+            <p>
+              Desh and Ian&apos;s friendship began in 2008 at Hendrix College in
+              Arkansas — two students from different parts of the world,
+              connected by a shared love of football and a deep desire to use
+              their talents to make a difference.
+            </p>
+            <p>
+              Over the years, that bond evolved into a shared mission: to support
+              people, communities, and organizations using sport as a force for
+              good. Both followed unique but parallel paths — Desh focusing on
+              technology, systems, and inclusive digital solutions; Ian rooted in
+              sport, development, and global youth engagement.
+            </p>
+            <p>
+              Through two decades of lived experience, cross-continental
+              collaboration, and grassroots learning, they&apos;ve come to
+              believe that sport, when combined with data, leadership, and
+              empathy, can be one of the most powerful tools for social
+              transformation.
+            </p>
+            <p>
+              That belief gave birth to <strong>Statloba For Good</strong> — a
+              platform where their complementary strengths come together to help
+              communities thrive and help like-minded organizations grow their
+              impact.
+            </p>
+            <p>
+              Today, SFG works with sports clubs and organizations, youth,
+              coaches, educators and trainers, non-profits, networks and more
+              around the world to bring free play, health access, digital
+              inclusion, and leadership development into one inclusive movement.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Team */}
+      <section className="py-20 bg-cream">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-charcoal font-[var(--font-heading)] mb-3">
+              Our Team
+            </h2>
+          </div>
+          <div className="text-center mb-12">
+            <p className="text-lg text-forest font-semibold font-[var(--font-heading)]">
+              Bound by Sport.
+            </p>
+            <p className="text-lg text-forest font-semibold font-[var(--font-heading)]">
+              Driven by Purpose.
+            </p>
+            <p className="text-lg text-forest font-semibold font-[var(--font-heading)]">
+              United to Make a Difference.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Desh Deepak */}
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <div className="bg-gradient-to-br from-forest to-forest-light p-8 text-center">
+                <div className="w-28 h-28 rounded-full bg-white/20 mx-auto flex items-center justify-center mb-4 border-4 border-white/30">
+                  <span className="text-white text-4xl font-bold font-[var(--font-heading)]">
+                    DD
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-white font-[var(--font-heading)]">
+                  Desh Deepak
+                </h3>
+                <p className="text-white/70 text-sm font-medium">
+                  Co-Founder | Secretary
+                </p>
+              </div>
+              <div className="p-6 lg:p-8">
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {["Data & AI", "Systems Thinking", "Digital Equity", "Social Entrepreneurship"].map(
+                    (tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 bg-forest/5 text-forest text-xs font-medium rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    )
+                  )}
+                </div>
+                <div className="space-y-3 text-sm text-warm-gray leading-relaxed">
+                  <p>
+                    Desh Deepak is a data scientist, systems thinker, and social
+                    entrepreneur with over a decade of experience working at the
+                    intersection of education, technology, and social impact. He
+                    currently serves as CEO of Gott Data and Munin, where he
+                    helps organizations harness the power of data, machine
+                    learning, and digital tools for real-world transformation.
+                  </p>
+                  <p>
+                    As AI and data systems grow more powerful, so do the
+                    inequalities they can reinforce — especially in rural areas
+                    and developing countries where access, literacy, and
+                    opportunity are limited. That understanding has driven Desh to
+                    create programs that bridge the digital divide, promote
+                    equity, and ensure that the tools of the future are in the
+                    hands of everyone, not just the privileged few.
+                  </p>
+                  <p>
+                    At SFG, Desh brings a human-first approach to innovation,
+                    helping communities and mission-aligned partners use data and
+                    digital tools in ways that are accessible, ethical, and built
+                    for sustainable impact.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Ian Evans */}
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <div className="bg-gradient-to-br from-navy to-navy-light p-8 text-center">
+                <div className="w-28 h-28 rounded-full bg-white/20 mx-auto flex items-center justify-center mb-4 border-4 border-white/30">
+                  <span className="text-white text-4xl font-bold font-[var(--font-heading)]">
+                    IE
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-white font-[var(--font-heading)]">
+                  Ian Evans
+                </h3>
+                <p className="text-white/70 text-sm font-medium">
+                  Co-Founder | President
+                </p>
+              </div>
+              <div className="p-6 lg:p-8">
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {["Sport for Good", "Global Development", "Youth Leadership", "Sports Diplomacy"].map(
+                    (tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 bg-navy/5 text-navy text-xs font-medium rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    )
+                  )}
+                </div>
+                <div className="space-y-3 text-sm text-warm-gray leading-relaxed">
+                  <p>
+                    Ian Evans is a global sports development leader and lifelong
+                    advocate for the power of football to build connection,
+                    confidence, and community. His journey spans from a playing
+                    and coaching career in soccer to serving as an international
+                    sports diplomat.
+                  </p>
+                  <p>
+                    Ian captained the 2006 CIAC LL State Champion Simsbury High
+                    School (CT) and Hendrix College (AR) soccer teams before
+                    coaching and playing professionally for Friska Viljor FC in
+                    Sweden. He earned his MA in International Development from
+                    American University and has since worked with over 1,000
+                    international youth athletes, coaches, and administrators
+                    through sports diplomacy exchange programs.
+                  </p>
+                  <p>
+                    Ian founded the Evans Soccer Academy (ESA) in 2024 and is
+                    currently pursuing an MBA in Sports Business at the
+                    University of Oregon (expected June 2027). At SFG, Ian leads
+                    with heart, humility, and a global perspective — using sport
+                    not just as a game, but as a gateway to opportunity and
+                    lasting transformation.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What We Bring */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-charcoal font-[var(--font-heading)] mb-3">
+              What We Bring
             </h2>
             <p className="text-warm-gray max-w-xl mx-auto">
               Data-driven pro bono and sliding scale support services to amplify
@@ -172,10 +423,47 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service) => (
+            {[
+              {
+                icon: Activity,
+                title: "Sports for Good Programs",
+                description:
+                  "We design and support sports programs that foster leadership, promote wellbeing, inclusion, and social change for youth and underserved communities.",
+              },
+              {
+                icon: Heart,
+                title: "Health & Wellness",
+                description:
+                  "We organize health fairs and workshops providing free medical screenings, wellness education, and mental health resources.",
+              },
+              {
+                icon: Laptop,
+                title: "Digital Literacy & Tech Access",
+                description:
+                  "From e-learning platforms to Data & AI Skills Training, we build tools and run programs that expand access to education and close the digital divide.",
+              },
+              {
+                icon: GraduationCap,
+                title: "Community Events",
+                description:
+                  "Community-based events that create access, build confidence, and promote wellbeing — always free and always for the community.",
+              },
+              {
+                icon: Handshake,
+                title: "Organizational Consulting",
+                description:
+                  "Hands-on support for mission-aligned organizations — from program management to custom consulting for operations and systems.",
+              },
+              {
+                icon: BarChart3,
+                title: "Fundraising & Revenue Strategy",
+                description:
+                  "We help growth-minded teams develop fundraising strategies, implement processes with clear goals and measurable metrics, and scale what works.",
+              },
+            ].map((service) => (
               <div
                 key={service.title}
-                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow"
+                className="bg-cream rounded-2xl p-8 hover:shadow-md transition-shadow"
               >
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-orange/10 rounded-xl mb-4">
                   <service.icon className="w-6 h-6 text-orange" />
@@ -199,8 +487,9 @@ export default function AboutPage() {
             Join the Movement
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto mb-10">
-            Whether you donate, volunteer, or partner with us, you become part
-            of a community committed to creating lasting change.
+            Whether you donate, volunteer, or partner with us — you become part
+            of a community committed to creating lasting change through sport,
+            data, and health.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
@@ -215,6 +504,7 @@ export default function AboutPage() {
               className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-full font-bold text-lg transition-all border border-white/20"
             >
               Explore Projects
+              <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </div>
