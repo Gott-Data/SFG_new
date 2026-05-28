@@ -1,3 +1,38 @@
+export interface BudgetLineItem {
+  name: string;
+  notes: string;
+  units: number;
+  unitCostNPR: number;
+  subtotalNPR: number;
+  subtotalUSD: number;
+}
+
+export interface BudgetCategory {
+  key: string;
+  label: string;
+  items: BudgetLineItem[];
+  subtotalNPR: number;
+  subtotalUSD: number;
+}
+
+export interface ClinicBudget {
+  title: string;
+  categories: BudgetCategory[];
+  directCostsNPR: number;
+  directCostsUSD: number;
+  contingencyNPR: number;
+  contingencyUSD: number;
+  overheadNPR: number;
+  overheadUSD: number;
+  grandTotalNPR: number;
+  grandTotalUSD: number;
+  sfgCoveredLabel: string;
+  sfgCoveredNPR: number;
+  sfgCoveredUSD: number;
+  grantAskNPR: number;
+  grantAskUSD: number;
+}
+
 export interface ProjectData {
   slug: string;
   title: string;
@@ -13,6 +48,7 @@ export interface ProjectData {
   raisedAmount: number;
   status: string;
   featured: boolean;
+  clinicBudget?: ClinicBudget;
 }
 
 export const projectsData: ProjectData[] = [
@@ -91,6 +127,184 @@ export const projectsData: ProjectData[] = [
     raisedAmount: 1850000,
     status: "active",
     featured: true,
+    clinicBudget: {
+      title: "In-Person Clinic Budget — Kathmandu 2026",
+      categories: [
+        {
+          key: "A",
+          label: "International Trainer Travel & Logistics (4 trainers)",
+          items: [
+            {
+              name: "International trainer airfare",
+              notes: "4 trainers, round-trip economy to Kathmandu (KTM).",
+              units: 4,
+              unitCostNPR: 140000,
+              subtotalNPR: 560000,
+              subtotalUSD: 3758,
+            },
+            {
+              name: "Trainer accommodation",
+              notes: "4 trainers × 6 nights. Mid-range hotel in Kathmandu.",
+              units: 24,
+              unitCostNPR: 7500,
+              subtotalNPR: 180000,
+              subtotalUSD: 1208,
+            },
+          ],
+          subtotalNPR: 740000,
+          subtotalUSD: 4966,
+        },
+        {
+          key: "B",
+          label: "Participant & Coach Travel (Atoot Nepal + out-of-town coaches)",
+          items: [
+            {
+              name: "Atoot participants travel (Kapilvastu ↔ Kathmandu)",
+              notes: "Round-trip bus/tourist coach for ~10 girls + 2 chaperones from Kapilvastu.",
+              units: 12,
+              unitCostNPR: 3500,
+              subtotalNPR: 42000,
+              subtotalUSD: 282,
+            },
+            {
+              name: "Atoot participant & chaperone lodging",
+              notes: "Shared guesthouse for ~10 girls + 2 chaperones × 5 nights.",
+              units: 60,
+              unitCostNPR: 2500,
+              subtotalNPR: 150000,
+              subtotalUSD: 1007,
+            },
+            {
+              name: "Coach travel — Udaypur & Surkhet",
+              notes: "2 coaches, round-trip bus + 5 nights lodging each.",
+              units: 2,
+              unitCostNPR: 18000,
+              subtotalNPR: 36000,
+              subtotalUSD: 242,
+            },
+          ],
+          subtotalNPR: 228000,
+          subtotalUSD: 1530,
+        },
+        {
+          key: "C",
+          label: "Venue, Supplies & Meals",
+          items: [
+            {
+              name: "Venue hire (indoor classroom + futsal access)",
+              notes: "4 program days at partnering facility or community hall in Kathmandu.",
+              units: 4,
+              unitCostNPR: 15000,
+              subtotalNPR: 60000,
+              subtotalUSD: 403,
+            },
+            {
+              name: "AV + internet + printing",
+              notes: "Projector, speakers, flipcharts, printed workbooks (Nepali/English), stable Wi-Fi.",
+              units: 1,
+              unitCostNPR: 40000,
+              subtotalNPR: 40000,
+              subtotalUSD: 268,
+            },
+            {
+              name: "Meals & refreshments (all participants & staff)",
+              notes: "Lunch + 2 tea breaks × ~60 people × 4 days.",
+              units: 240,
+              unitCostNPR: 650,
+              subtotalNPR: 156000,
+              subtotalUSD: 1047,
+            },
+            {
+              name: "Training supplies & equipment",
+              notes: "Footballs, cones, bibs, notebooks, stationery, name tags, printed certificates.",
+              units: 1,
+              unitCostNPR: 65000,
+              subtotalNPR: 65000,
+              subtotalUSD: 436,
+            },
+          ],
+          subtotalNPR: 321000,
+          subtotalUSD: 2154,
+        },
+        {
+          key: "D",
+          label: "Local Personnel & Coach Stipends",
+          items: [
+            {
+              name: "Local co-facilitator / Nepali translator",
+              notes: "1 bilingual co-facilitator × 4 days (bridges English/Nepali in sessions).",
+              units: 4,
+              unitCostNPR: 8000,
+              subtotalNPR: 32000,
+              subtotalUSD: 215,
+            },
+            {
+              name: "Coach participation stipend",
+              notes: "7 WE United coaches × 4 days (honors lost income from regular sessions).",
+              units: 28,
+              unitCostNPR: 1500,
+              subtotalNPR: 42000,
+              subtotalUSD: 282,
+            },
+            {
+              name: "Logistics coordinator (WE United / Atoot staff)",
+              notes: "1 part-time coordinator over planning + delivery period.",
+              units: 1,
+              unitCostNPR: 50000,
+              subtotalNPR: 50000,
+              subtotalUSD: 336,
+            },
+          ],
+          subtotalNPR: 124000,
+          subtotalUSD: 832,
+        },
+        {
+          key: "E",
+          label: "Safeguarding, Documentation & M&E",
+          items: [
+            {
+              name: "Child safeguarding & welfare (medical kit, insurance)",
+              notes: "On-site first aid, group accident insurance for minors during program.",
+              units: 1,
+              unitCostNPR: 30000,
+              subtotalNPR: 30000,
+              subtotalUSD: 201,
+            },
+            {
+              name: "Documentation & storytelling",
+              notes: "Photographer/videographer 2 days + editing (for grant reporting and outreach).",
+              units: 1,
+              unitCostNPR: 55000,
+              subtotalNPR: 55000,
+              subtotalUSD: 369,
+            },
+            {
+              name: "Monitoring, evaluation & reporting",
+              notes: "Pre/post surveys, impact report for grant funder, translation.",
+              units: 1,
+              unitCostNPR: 35000,
+              subtotalNPR: 35000,
+              subtotalUSD: 235,
+            },
+          ],
+          subtotalNPR: 120000,
+          subtotalUSD: 805,
+        },
+      ],
+      directCostsNPR: 1533000,
+      directCostsUSD: 10289,
+      contingencyNPR: 153300,
+      contingencyUSD: 1029,
+      overheadNPR: 122640,
+      overheadUSD: 823,
+      grandTotalNPR: 1808940,
+      grandTotalUSD: 12141,
+      sfgCoveredLabel: "International trainer costs covered by SFG Programming",
+      sfgCoveredNPR: 740000,
+      sfgCoveredUSD: 4966,
+      grantAskNPR: 1068940,
+      grantAskUSD: 7175,
+    },
   },
   {
     slug: "chipata-girls-zambia",

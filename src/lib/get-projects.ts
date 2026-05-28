@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-import { projectsData, type ProjectData } from "@/lib/projects-data";
+import { projectsData, type ProjectData, type ClinicBudget } from "@/lib/projects-data";
 
 function staticToShape(p: ProjectData) {
   return {
@@ -60,7 +60,13 @@ export async function getProjectBySlug(slug: string) {
         },
       },
     });
-    if (project) return project;
+    if (project) {
+      const staticProject = projectsData.find((p) => p.slug === slug);
+      return {
+        ...project,
+        clinicBudget: staticProject?.clinicBudget ?? null,
+      };
+    }
   } catch {}
 
   const staticProject = projectsData.find((p) => p.slug === slug);
@@ -68,9 +74,15 @@ export async function getProjectBySlug(slug: string) {
 
   return {
     ...staticToShape(staticProject),
+    clinicBudget: staticProject.clinicBudget ?? null,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     donations: [] as any[],
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expenses: [] as any[],
   };
+}
+
+export function getClinicBudgetForProject(slug: string): ClinicBudget | null {
+  const project = projectsData.find((p) => p.slug === slug);
+  return project?.clinicBudget ?? null;
 }

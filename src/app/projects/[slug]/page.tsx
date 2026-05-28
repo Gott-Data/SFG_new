@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, MapPin, Users, Calendar, TrendingUp, Handshake } from "lucide-react";
+import { ArrowLeft, MapPin, Users, Calendar, TrendingUp, Handshake, FileText } from "lucide-react";
+import type { ClinicBudget, BudgetCategory } from "@/lib/projects-data";
 import { formatCurrency, getProgressPercentage } from "@/lib/utils";
 import DonationForm from "@/components/DonationForm";
 import { getProjectBySlug } from "@/lib/get-projects";
@@ -159,6 +160,11 @@ export default async function ProjectDetailPage({
               </div>
             </div>
 
+            {/* Clinic Budget */}
+            {project.clinicBudget && (
+              <ClinicBudgetSection budget={project.clinicBudget} />
+            )}
+
             {/* Partner Logo (mobile) */}
             {project.partnerLogoUrl && (
               <div className="md:hidden bg-white rounded-2xl p-6 shadow-sm flex items-center gap-4">
@@ -287,6 +293,159 @@ export default async function ProjectDetailPage({
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function formatNPR(amount: number) {
+  return `NPR ${amount.toLocaleString("en-IN")}`;
+}
+
+function formatUSD(amount: number) {
+  return `$${amount.toLocaleString()}`;
+}
+
+function ClinicBudgetSection({ budget }: { budget: ClinicBudget }) {
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-sm">
+      <div className="flex items-center gap-2 mb-2">
+        <FileText className="w-5 h-5 text-forest" />
+        <h2 className="text-xl font-bold text-charcoal font-[var(--font-heading)]">
+          {budget.title}
+        </h2>
+      </div>
+      <p className="text-sm text-warm-gray mb-6">
+        Full budget transparency — every line item, every dollar.
+      </p>
+
+      {/* Budget Summary Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        <div className="bg-forest/5 rounded-xl p-4 text-center">
+          <div className="text-lg font-bold text-forest">{formatUSD(budget.grandTotalUSD)}</div>
+          <div className="text-xs text-warm-gray">Grand Total</div>
+        </div>
+        <div className="bg-orange/5 rounded-xl p-4 text-center">
+          <div className="text-lg font-bold text-orange">{formatUSD(budget.sfgCoveredUSD)}</div>
+          <div className="text-xs text-warm-gray">SFG Covered</div>
+        </div>
+        <div className="bg-navy/5 rounded-xl p-4 text-center">
+          <div className="text-lg font-bold text-navy">{formatUSD(budget.grantAskUSD)}</div>
+          <div className="text-xs text-warm-gray">Grant Ask</div>
+        </div>
+        <div className="bg-cream rounded-xl p-4 text-center">
+          <div className="text-lg font-bold text-charcoal">{formatNPR(budget.grandTotalNPR)}</div>
+          <div className="text-xs text-warm-gray">Total (NPR)</div>
+        </div>
+      </div>
+
+      {/* Detailed Categories */}
+      <div className="space-y-6">
+        {budget.categories.map((cat: BudgetCategory) => (
+          <BudgetCategoryBlock key={cat.key} category={cat} />
+        ))}
+      </div>
+
+      {/* Totals */}
+      <div className="mt-8 pt-6 border-t-2 border-forest/20 space-y-2">
+        <div className="flex justify-between text-sm">
+          <span className="text-warm-gray">Direct programme costs</span>
+          <span className="font-medium text-charcoal">
+            {formatNPR(budget.directCostsNPR)} ({formatUSD(budget.directCostsUSD)})
+          </span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-warm-gray">Contingency (10%)</span>
+          <span className="font-medium text-charcoal">
+            {formatNPR(budget.contingencyNPR)} ({formatUSD(budget.contingencyUSD)})
+          </span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-warm-gray">Administrative overhead (8%)</span>
+          <span className="font-medium text-charcoal">
+            {formatNPR(budget.overheadNPR)} ({formatUSD(budget.overheadUSD)})
+          </span>
+        </div>
+        <div className="flex justify-between text-sm font-bold pt-2 border-t border-cream">
+          <span className="text-charcoal">Grand Total</span>
+          <span className="text-forest">
+            {formatNPR(budget.grandTotalNPR)} ({formatUSD(budget.grandTotalUSD)})
+          </span>
+        </div>
+        <div className="flex justify-between text-sm text-warm-gray pt-1">
+          <span>Minus: {budget.sfgCoveredLabel}</span>
+          <span>−{formatNPR(budget.sfgCoveredNPR)} (−{formatUSD(budget.sfgCoveredUSD)})</span>
+        </div>
+        <div className="flex justify-between text-sm font-bold bg-orange/5 rounded-lg p-3 mt-2">
+          <span className="text-charcoal">Total Grant Ask</span>
+          <span className="text-orange">
+            {formatNPR(budget.grantAskNPR)} ({formatUSD(budget.grantAskUSD)})
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BudgetCategoryBlock({ category }: { category: BudgetCategory }) {
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-bold text-charcoal">
+          <span className="inline-flex items-center justify-center w-6 h-6 bg-forest text-white text-xs font-bold rounded-full mr-2">
+            {category.key}
+          </span>
+          {category.label}
+        </h3>
+        <span className="text-sm font-semibold text-forest whitespace-nowrap ml-4">
+          {formatUSD(category.subtotalUSD)}
+        </span>
+      </div>
+      <div className="bg-cream/50 rounded-xl overflow-hidden">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-xs text-warm-gray border-b border-cream">
+              <th className="text-left p-3 font-medium">Line Item</th>
+              <th className="text-right p-3 font-medium hidden sm:table-cell">Units</th>
+              <th className="text-right p-3 font-medium hidden sm:table-cell">Unit Cost</th>
+              <th className="text-right p-3 font-medium">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {category.items.map((item, i) => (
+              <tr
+                key={i}
+                className="border-b border-cream/70 last:border-0"
+              >
+                <td className="p-3">
+                  <p className="font-medium text-charcoal">{item.name}</p>
+                  <p className="text-xs text-warm-gray mt-0.5">{item.notes}</p>
+                </td>
+                <td className="p-3 text-right text-warm-gray hidden sm:table-cell">{item.units}</td>
+                <td className="p-3 text-right text-warm-gray hidden sm:table-cell">
+                  {formatNPR(item.unitCostNPR)}
+                </td>
+                <td className="p-3 text-right font-medium text-charcoal whitespace-nowrap">
+                  {formatUSD(item.subtotalUSD)}
+                  <span className="block text-xs text-warm-gray">{formatNPR(item.subtotalNPR)}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr className="bg-forest/5">
+              <td colSpan={3} className="p-3 text-sm font-semibold text-charcoal">
+                Subtotal
+              </td>
+              <td className="p-3 text-right font-bold text-forest whitespace-nowrap">
+                {formatUSD(category.subtotalUSD)}
+                <span className="block text-xs font-normal text-warm-gray">
+                  {formatNPR(category.subtotalNPR)}
+                </span>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </div>
   );
